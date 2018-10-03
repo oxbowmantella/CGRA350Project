@@ -9,6 +9,7 @@
 #include "cgra/imgui_impl_glfw_gl3.h"
 
 #include "ex1.hpp"
+#include "fruitModels.hpp"
 
 // Forward definition of callbacks
 extern "C" {

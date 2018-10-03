@@ -47,11 +47,7 @@ public:
     }
     
     void init();
-    
-    //void createCube();
-    void sphere_latlong();
-    //void sphere_from_cube();
-    //void PrimCreate();
+
     void drawScene();
     void doGUI();
     

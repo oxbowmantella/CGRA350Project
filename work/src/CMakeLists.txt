@@ -5,7 +5,8 @@
 SET(sources
   ex1.hpp
   ex1.cpp
-
+  fruitModels.cpp
+  fruitModels.hpp
   opengl.hpp
   main.cpp
 )
