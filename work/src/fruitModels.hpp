@@ -36,4 +36,8 @@ public:
     cgra::Mesh m_tomato;
     void drawTomato();
     void Tomato();
+    
+    cgra::Mesh m_topper;
+    void drawTopper();
+    void createTopper(double x, double y, double z);
 };
