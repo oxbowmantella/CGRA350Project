@@ -24,10 +24,11 @@ public:
     glm::vec3 m_translation;
     // The scale of the mesh
     float m_scale;
+    //glm::vec3 m_scale;
     
-    // A 4x4 matrix representing the rotation of the
+    // A 3x3 matrix representing the rotation of the
     // mesh
-    glm::mat4 m_rotationMatrix;
+    glm::mat3 m_rotationMatrix;
     
     // Whether or not the left, middle or right buttons are down.
     bool m_mouseButtonDown[3];
@@ -47,7 +48,10 @@ public:
     }
     
     void init();
-
+    
+    void createCube();
+    void loadObj(const char *filename);
+    
     void drawScene();
     void doGUI();
     
@@ -56,6 +60,8 @@ public:
     void onMouseButton(int button, int action, int mods);
     
     void onCursorPos(double xpos, double ypos);
+    
+    glm::mat4 getRotation(glm::vec2 s, glm::vec2 p0, glm::vec2 p1, glm::mat4 m_rotationMatrix);
     
     void onScroll(double xoffset, double yoffset);
 };

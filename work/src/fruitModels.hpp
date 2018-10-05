@@ -28,4 +28,12 @@ public:
     cgra::Mesh m_bowl;
     void drawBowl();
     void Bowl();
+    
+    cgra::Mesh m_strawberry;
+    void drawStrawberry();
+    void Strawberry();
+    
+    cgra::Mesh m_tomato;
+    void drawTomato();
+    void Tomato();
 };
