@@ -88,6 +88,12 @@ void Application::doGUI() {
                                        0.0,0.0,rotation.z
                                        );
     }
+    if(ImGui::InputText(".obj File", buf, 255));
+     if(ImGui::Button("Load File")){
+         std::cout<< buf << "\n";
+         loadObj(buf);
+     }
+     
     ImGui::End();
 }
 
@@ -98,7 +104,48 @@ void Application::onMouseButton(int button, int action, int) {
         m_mouseButtonDown[button] = action == GLFW_PRESS;
     }
 }
-
+void Application::loadObj(const char *filename) {
+    cgra::Wavefront obj;
+    // Wrap the loading in a try..catch block
+    try {
+        obj = cgra::Wavefront::load(filename);
+    } catch (std::exception e) {
+        std::cerr << "Couldn't load file: '" << filename << "' " << e.what() << std::endl;
+        return;
+    }
+    
+    /************************************************************
+     * 2. Create a Mesh                                         *
+     *                                                          *
+     * Use the data in `obj` to create appropriately-sized      *
+     * vertex and index matrices and fill them with data.       *
+     *                                                          *
+     * Assume that all the faces in the file are triangles.     *
+     ************************************************************/
+    
+    // Replace these with appropriate values
+    //100000 works too
+    unsigned int numVertices  = obj.m_positions.size();
+    unsigned int numTriangles = obj.m_faces.size();
+    
+    cgra::Matrix<double> vertices(numVertices, 3);
+    cgra::Matrix<unsigned int> triangles(numTriangles, 3);
+    
+    for (size_t i = 0; i < obj.m_positions.size(); i++) {
+        // Add each position to the vertices matrix
+        std::cout << "vertices" << i << std::endl;
+        vertices.setRow(i,{obj.m_positions[i][0],obj.m_positions[i][1],obj.m_positions[i][2]});
+    }
+    
+    for (size_t i = 0; i < obj.m_faces.size(); i++) {
+        // Add each triangle's indices to the triangles matrix
+        // Remember that Wavefront files use indices that start at 1
+        std::vector<cgra::Wavefront::Vertex> m_vertices = obj.m_faces[i].m_vertices;
+        triangles.setRow(i,{m_vertices[0].m_p-1,m_vertices[1].m_p - 1,m_vertices[2].m_p - 1});
+    }
+    
+    m_mesh.setData(vertices, triangles);
+}
 void Application::onCursorPos(double xpos, double ypos) {
     
     int last_mx = 0, last_my = 0, cur_mx = xpos, cur_my = ypos;

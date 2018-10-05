@@ -14,12 +14,8 @@
 #include "glm/gtx/euler_angles.hpp"
 #include "fruitModels.hpp"
 //test parameters
-glm::vec2 P0 (0.0,0.0);
-glm::vec2 P1 (0.0,1.0);
-glm::vec2 P2 (1.0,1.0);
-glm::vec2 P3 (1.0,0.0);
-float t = 0.0;
-static float screendist = 7;
+double a = 1;
+double b = 5/2;
 
 const double PI=3.141592653589793238462643383279502884197;
 static int devisions = 28;
@@ -116,34 +112,26 @@ void fruitModels::Strawberry() {
 //------------------------------------------Tomato------------------------------------------//
 void fruitModels::drawTomato(){m_tomato.draw();}
 void fruitModels::Tomato() {
-
     int size_vert = devisions*(devisions+1);
     cgra::Matrix<double> vertices(size_vert*3, 3);
     cgra::Matrix<unsigned int> triangles(size_vert, 3);
     int m_SubDiv = 0;
     glm::vec3 center(0,0,0);
-    
+    double stepSize = PI * 2 / devisions;
     int j = 0;
     unsigned int numOfRows = 0;
     std::vector<glm::vec3>spherePoints;
     spherePoints.clear();
     for (double phi = 0; phi < 2*PI; phi +=PI*2/devisions) {
         for(double theta = 0; theta < PI; theta+=PI*2/devisions){
-            
-            if(t < 1){
-                t = t+0.01;
-            }else{
-                t = 0;
-            }
             //std::cout << "we here" << std::endl;
             glm::vec3 point;
-            point.x = r * cos(phi*2) * sin(theta * 0.8) + center.x;
+            point.x = r * cos(phi*2) * sin(theta * 0.89) + center.x;
             point.y = r * sin(phi*2) * sin(theta) + center.y;
-            point.z =                cos(theta) + center.z;
+            point.z = r            * cos(theta) + center.z;
             spherePoints.push_back(point);
             m_SubDiv++;
-            //std::cout <<t<< std::endl;
-            //t = t+0.01;
+            //std::cout << "we ends" << m_SubDiv<< std::endl;
         }
     }
     for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {
