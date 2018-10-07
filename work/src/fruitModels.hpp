@@ -39,5 +39,5 @@ public:
     
     cgra::Mesh m_topper;
     void drawTopper();
-    void createTopper(double x, double y, double z);
+    void createTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz);
 };
