@@ -1,6 +1,10 @@
-# CGRA OpenGL Assignment 1
+# CGRA350 Project Fruit Rotting Simulation - Amy Wilson & Siddharth Mistry
 
-# Instructions
+# Overview
+This program will simulate the like span of the fruit, showing a *real time* demo of rot on fruit models.
+
+//---------------------------------------------------------------------//
+# Build Instructions
 
 All parts of the assignment can be implemented by modifying the file `ex1.cpp` in the `work/src/`
 folder. You may have to look at some of the other files to know what functions to

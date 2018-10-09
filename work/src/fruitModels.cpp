@@ -16,10 +16,9 @@
 //test parameters
 double a = 1;
 double b = 5/2;
-
+//--------------
 const double PI=3.141592653589793238462643383279502884197;
 static int devisions = 28;
-static int cubeDevisions = 2;
 static int r = 2;
 //------------------------------------------Fruit Bowl------------------------------------------//
 void fruitModels::drawBowl(){m_bowl.draw();}
@@ -148,7 +147,6 @@ void fruitModels::Tomato() {
     for(unsigned int i = 0; i< triangles.numRows()/2; i++){
         triangles.setRow(i, {numOfRows,numOfRows+1,numOfRows+2});
         numOfRows+=3;
-        //triangles.setRow(i, {i+3,i+4,i+5});
     }
     
     m_tomato.setData(vertices, triangles);
@@ -157,7 +155,7 @@ void fruitModels::Tomato() {
     drawTopper();
 }
 
-//------------------------------------------Topper------------------------------------------//
+//------------------------------------------Topper(Tomato)------------------------------------------//
 void fruitModels::drawTopper(){m_topper.draw();}
 void fruitModels::createTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz){
     glm::mat4 modelTransform(1.0f);
