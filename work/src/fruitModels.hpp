@@ -29,15 +29,30 @@ public:
     void drawBowl();
     void Bowl();
     
+    //--------------
+    cgra::Mesh m_orange;
+    void drawOrange();
+    void Orange();
+    
+    cgra::Mesh m_orangeTopper;
+    void drawOrangeTopper();
+    void createOrangeTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz);
+    
+    //--------------
     cgra::Mesh m_strawberry;
     void drawStrawberry();
     void Strawberry();
     
+    cgra::Mesh m_StrawTopper;
+    void drawStrawTopper();
+    void createStrawTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz);
+    
+    //--------------
     cgra::Mesh m_tomato;
     void drawTomato();
-    void Tomato();
+    void Tomato(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     
-    cgra::Mesh m_topper;
-    void drawTopper();
-    void createTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz);
+    cgra::Mesh m_TomatorTopper;
+    void drawTomatoTopper();
+    void createTomatoTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz);
 };

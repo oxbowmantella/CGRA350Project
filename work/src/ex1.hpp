@@ -2,8 +2,22 @@
 
 #include "cgra/mesh.hpp"
 #include "cgra/shader.hpp"
-
+#include "ray.hpp"
 #include "glm/glm.hpp"
+class Light;
+class RayIntersection {
+public:
+    // set to true if there was actually an intersection
+    bool m_valid = false;
+    
+    // distance along the ray the intersection occured
+    float m_distance = std::numeric_limits<float>::infinity();
+    
+    // position, normal and uv coordinates of the surface
+    glm::vec3 m_position;
+    glm::vec3 m_normal;
+};
+
 
 class Application {
 public:
@@ -32,7 +46,7 @@ public:
     
     // Whether or not the left, middle or right buttons are down.
     bool m_mouseButtonDown[3];
-    
+    RayIntersection intersect(const Ray &ray);
     Application(GLFWwindow *win)
     : m_window(win),
     m_viewportSize(1, 1), m_mousePosition(0, 0),
@@ -50,6 +64,7 @@ public:
     void init();
     
     void createCube();
+    void DrawPlane();
     void loadObj(const char *filename);
     
     void drawScene();
@@ -64,4 +79,18 @@ public:
     glm::mat4 getRotation(glm::vec2 s, glm::vec2 p0, glm::vec2 p1, glm::mat4 m_rotationMatrix);
     
     void onScroll(double xoffset, double yoffset);
+};
+class Scene{
+private:
+    std::vector<std::shared_ptr<Light>> m_lights;
+
+public:
+    Scene() { }
+    //Scene(std::vector<std::shared_ptr<SceneObject>> objects, std::vector<std::shared_ptr<Light>> lights)
+    //: m_objects(objects), m_lights(lights) { }
+    
+    RayIntersection intersect(const Ray &ray);
+    //std::vector<std::shared_ptr<SceneObject>> objects() const { return m_objects; }
+    std::vector<std::shared_ptr<Light>> lights() const { return m_lights; }
+    static Scene lightScene();
 };
