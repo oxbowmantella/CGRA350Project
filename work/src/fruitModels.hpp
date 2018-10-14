@@ -55,4 +55,13 @@ public:
     cgra::Mesh m_TomatorTopper;
     void drawTomatoTopper();
     void createTomatoTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz);
+    
+    //--------------
+    cgra::Mesh m_apple;
+    void drawApple();
+    void Apple(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
+    
+    cgra::Mesh m_AppleTopper;
+    void drawAppleTopper();
+    void createAppleTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz);
 };

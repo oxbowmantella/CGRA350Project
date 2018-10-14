@@ -82,12 +82,14 @@ void Application::drawScene() {
      
     //m_fruits.Bowl();
     //m_fruits.drawBowl();
-    m_fruits.Orange();
-    m_fruits.drawOrange();
+    //m_fruits.Orange();
+    //m_fruits.drawOrange();
     //m_fruits.Strawberry();
     //m_fruits.drawStrawberry();
     //m_fruits.Tomato(0,0,0,0,0,0);
     //m_fruits.drawTomato();
+    m_fruits.Apple(0,0,0,0,0,0);
+    m_fruits.drawApple();
     
     //for lighting system
     //Scene::lightScene();

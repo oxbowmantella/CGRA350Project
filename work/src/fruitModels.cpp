@@ -337,6 +337,99 @@ void fruitModels::createTomatoTopper(double x, double y, double z,float ROTx, fl
 
 }
 
+//------------------------------------------Apple------------------------------------------//
+void fruitModels::drawApple(){m_apple.draw();}
+void fruitModels::Apple(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ) {
+    int size_vert = devisions*(devisions+1);
+    cgra::Matrix<double> vertices(size_vert*3, 3);
+    cgra::Matrix<unsigned int> triangles(size_vert, 3);
+    int m_SubDiv = 0;
+    glm::vec3 center(0,0,0);
+    
+    int j = 0;
+    unsigned int numOfRows = 0;
+    std::vector<glm::vec3>spherePoints;
+    spherePoints.clear();
+    for (double phi = 0; phi < PI *2; phi +=PI*2/devisions) {
+        for(double theta = 0; theta < PI; theta+=PI*2/devisions){
+            //std::cout << "we here" << std::endl;
+            glm::vec3 point;
+            point.x = r * cos(phi*2) * sin(theta * 0.89) + center.x;
+            point.y = r * sin(phi*2) * sin(theta) + center.y;
+            point.z = r            * cos(theta) + center.z;
+            //std::cout << "z" << point.z<< std::endl;
+            spherePoints.push_back(point);
+            m_SubDiv++;
+            //std::cout << "we ends" << m_SubDiv<< std::endl;
+        }
+    }
+    for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {
+        
+        vertices.setRow(i, { spherePoints[j].x, spherePoints[j].y, spherePoints[j].z });
+        vertices.setRow(i+1, { spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z });
+        vertices.setRow(i+2, { spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z });
+        
+        vertices.setRow(i+3, { spherePoints[j].x , spherePoints[j].y , spherePoints[j].z });
+        vertices.setRow(i+4, { spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z });
+        vertices.setRow(i+5, { spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z });
+        j++;
+        
+    }
+    for(unsigned int i = 0; i< triangles.numRows()/2; i++){
+        triangles.setRow(i, {numOfRows,numOfRows+1,numOfRows+2});
+        numOfRows+=3;
+        //triangles.setRow(i, {i+3,i+4,i+5});
+    }
+    m_apple.setData(vertices, triangles);
+    
+    createAppleTopper(center.x,center.y,center.z - 1.89 , 0,-90,90);
+    drawAppleTopper();
+}
+
+//------------------------------------------Topper(Apple)------------------------------------------//
+void fruitModels::drawAppleTopper(){m_AppleTopper.draw();}
+void fruitModels::createAppleTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz){
+    glm::mat4 modelTransform(1.0f);
+    
+    modelTransform = glm::rotate(modelTransform, glm::radians(ROTx), {1, 0 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(ROTy), {0, 1 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(ROTz), {0, 0 ,1});
+    
+    static char filename[255] = CGRA_SRCDIR "/res/models/appleTopper.obj";
+    cgra::Wavefront appleObj;
+    try {
+        appleObj = cgra::Wavefront::load(filename);
+    } catch (std::exception e) {
+        std::cerr << "Couldn't load file: '" << filename << "' " << e.what() << std::endl;
+        return;
+    }
+    unsigned int numVertices  = appleObj.m_positions.size();
+    unsigned int numTriangles = appleObj.m_faces.size();
+    
+    cgra::Matrix<double> vertices(numVertices, 3);
+    cgra::Matrix<unsigned int> triangles(numTriangles, 3);
+    glm::vec3 vmax(appleObj.m_positions[0][0],appleObj.m_positions[0][1],appleObj.m_positions[0][2]);
+    glm::vec3 vmin(appleObj.m_positions[0][0],appleObj.m_positions[0][1],appleObj.m_positions[0][2]);
+    
+    for (size_t i = 0; i < appleObj.m_positions.size(); i++) {
+        
+        glm::mat4 model = modelTransform;
+        glm::mat4 mvp = glm::mat4(1.0f)* model;
+        glm::vec4 vertex(appleObj.m_positions[i][0],appleObj.m_positions[i][1],appleObj.m_positions[i][2], 1.0f);
+        vertex = mvp * vertex;
+        vertices.setRow(i,{vertex[0]+x,vertex[1]+y,vertex[2]+z});
+        glm::vec3 v(appleObj.m_positions[i][0],appleObj.m_positions[i][1],appleObj.m_positions[i][2]);
+        vmax = glm::max(vmax, v);
+        vmin = glm::min(vmin, v);
+    }
+    for (size_t i = 0; i < appleObj.m_faces.size(); i++) {
+        std::vector<cgra::Wavefront::Vertex> m_vertices = appleObj.m_faces[i].m_vertices;
+        triangles.setRow(i,{m_vertices[0].m_p-1,m_vertices[1].m_p - 1,m_vertices[2].m_p - 1});
+    }
+    m_AppleTopper.setData(vertices, triangles);
+    
+}
+
 
  /*
  glm::mat4 model = modelTransform;
