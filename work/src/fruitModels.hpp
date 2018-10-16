@@ -25,14 +25,17 @@ class fruitModels {
 public:
     cgra::Program m_program;
     
+    //--------------
     cgra::Mesh m_bowl;
+    float bowl_scaler = 0.3;
     void drawBowl();
-    void Bowl();
+    void Bowl(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     
     //--------------
     cgra::Mesh m_orange;
+    float orange_scaler = 0.7;
     void drawOrange();
-    void Orange();
+    void Orange(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     
     cgra::Mesh m_orangeTopper;
     void drawOrangeTopper();
@@ -40,8 +43,9 @@ public:
     
     //--------------
     cgra::Mesh m_strawberry;
+    float strawberry_scaler = 1;
     void drawStrawberry();
-    void Strawberry();
+    void Strawberry(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     
     cgra::Mesh m_StrawTopper;
     void drawStrawTopper();
@@ -49,6 +53,7 @@ public:
     
     //--------------
     cgra::Mesh m_tomato;
+    float tomato_scaler = 1.5;
     void drawTomato();
     void Tomato(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     
@@ -58,6 +63,7 @@ public:
     
     //--------------
     cgra::Mesh m_apple;
+    float apple_scaler = 2;
     void drawApple();
     void Apple(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     

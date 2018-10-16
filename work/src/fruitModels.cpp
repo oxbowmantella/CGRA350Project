@@ -22,12 +22,18 @@ static int devisions = 28;
 static int r = 2;
 //------------------------------------------Fruit Bowl------------------------------------------//
 void fruitModels::drawBowl(){m_bowl.draw();}
-void fruitModels::Bowl() {
+void fruitModels::Bowl(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ) {
     int size_vert = devisions*(devisions+1);
     cgra::Matrix<double> vertices(size_vert*3, 3);
     cgra::Matrix<unsigned int> triangles(size_vert, 3);
     int m_SubDiv = 0;
     glm::vec3 center(0,0,0);
+    
+    glm::mat4 modelTransform(1.0f);
+    modelTransform = glm::scale(modelTransform, glm::vec3(bowl_scaler));
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotX), {1, 0 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotY), {0, 1 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotZ), {0, 0 ,1});
     
     int j = 0;
     unsigned int numOfRows = 0;
@@ -44,16 +50,34 @@ void fruitModels::Bowl() {
         }
     }
     for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {
+        glm::mat4 model = modelTransform;
+        glm::mat4 mvp = glm::mat4(1.0f)* model;
         
-        vertices.setRow(i, { spherePoints[j].x, spherePoints[j].y, spherePoints[j].z });
-        vertices.setRow(i+1, { spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z });
-        vertices.setRow(i+2, { spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z });
+        glm::vec4 vertex_1(spherePoints[j].x, spherePoints[j].y, spherePoints[j].z, 1.0f);
+        vertex_1 = mvp * vertex_1;
+        vertices.setRow(i, { vertex_1[0]+InTranX, vertex_1[1]+InTranY, vertex_1[2]+InTranZ});
         
-        vertices.setRow(i+3, { spherePoints[j].x , spherePoints[j].y , spherePoints[j].z });
-        vertices.setRow(i+4, { spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z });
-        vertices.setRow(i+5, { spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z });
+        glm::vec4 vertex_2(spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_2 = mvp * vertex_2;
+        vertices.setRow(i+1, { vertex_2[0]+InTranX, vertex_2[1]+InTranY, vertex_2[2]+InTranZ});
+        
+        glm::vec4 vertex_3(spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z , 1.0f);
+        vertex_3 = mvp * vertex_3;
+        vertices.setRow(i+2, { vertex_3[0]+InTranX, vertex_3[1]+InTranY, vertex_3[2]+InTranZ});
+        
+        glm::vec4 vertex_4(spherePoints[j].x , spherePoints[j].y , spherePoints[j].z , 1.0f);
+        vertex_4 = mvp * vertex_4;
+        vertices.setRow(i+3, { vertex_4[0]+InTranX, vertex_4[1]+InTranY, vertex_4[2]+InTranZ});
+        
+        glm::vec4 vertex_5(spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z, 1.0f);
+        vertex_5 = mvp * vertex_5;
+        vertices.setRow(i+4, { vertex_5[0]+InTranX, vertex_5[1]+InTranY, vertex_5[2]+InTranZ});
+        
+        glm::vec4 vertex_6(spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_6 = mvp * vertex_6;
+        vertices.setRow(i+5, { vertex_6[0]+InTranX, vertex_6[1]+InTranY, vertex_6[2]+InTranZ});
+        
         j++;
-        
     }
     for(unsigned int i = 0; i< triangles.numRows()/2; i++){
         triangles.setRow(i, {numOfRows,numOfRows+1,numOfRows+2});
@@ -64,12 +88,19 @@ void fruitModels::Bowl() {
 
 //------------------------------------------Orange------------------------------------------//
 void fruitModels::drawOrange(){m_orange.draw();}
-void fruitModels::Orange() {
+void fruitModels::Orange(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ) {
     int size_vert = devisions*(devisions+1);
     cgra::Matrix<double> vertices(size_vert*3, 3);
     cgra::Matrix<unsigned int> triangles(size_vert, 3);
     int m_SubDiv = 0;
     glm::vec3 center(0,0,0);
+    
+    glm::mat4 modelTransform(1.0f);
+    modelTransform = glm::scale(modelTransform, glm::vec3(orange_scaler));
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotX), {1, 0 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotY), {0, 1 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotZ), {0, 0 ,1});
+    
     int j = 0;
     unsigned int numOfRows = 0;
     std::vector<glm::vec3>spherePoints;
@@ -86,13 +117,33 @@ void fruitModels::Orange() {
     }
     
     for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {
-        vertices.setRow(i, { spherePoints[j].x, spherePoints[j].y, spherePoints[j].z });
-        vertices.setRow(i+1, { spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z });
-        vertices.setRow(i+2, { spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z });
+        glm::mat4 model = modelTransform;
+        glm::mat4 mvp = glm::mat4(1.0f)* model;
         
-        vertices.setRow(i+3, { spherePoints[j].x , spherePoints[j].y , spherePoints[j].z });
-        vertices.setRow(i+4, { spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z });
-        vertices.setRow(i+5, { spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z });
+        glm::vec4 vertex_1(spherePoints[j].x, spherePoints[j].y, spherePoints[j].z, 1.0f);
+        vertex_1 = mvp * vertex_1;
+        vertices.setRow(i, { vertex_1[0]+InTranX, vertex_1[1]+InTranY, vertex_1[2]+InTranZ});
+        
+        glm::vec4 vertex_2(spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_2 = mvp * vertex_2;
+        vertices.setRow(i+1, { vertex_2[0]+InTranX, vertex_2[1]+InTranY, vertex_2[2]+InTranZ});
+        
+        glm::vec4 vertex_3(spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z , 1.0f);
+        vertex_3 = mvp * vertex_3;
+        vertices.setRow(i+2, { vertex_3[0]+InTranX, vertex_3[1]+InTranY, vertex_3[2]+InTranZ});
+        
+        glm::vec4 vertex_4(spherePoints[j].x , spherePoints[j].y , spherePoints[j].z , 1.0f);
+        vertex_4 = mvp * vertex_4;
+        vertices.setRow(i+3, { vertex_4[0]+InTranX, vertex_4[1]+InTranY, vertex_4[2]+InTranZ});
+        
+        glm::vec4 vertex_5(spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z, 1.0f);
+        vertex_5 = mvp * vertex_5;
+        vertices.setRow(i+4, { vertex_5[0]+InTranX, vertex_5[1]+InTranY, vertex_5[2]+InTranZ});
+        
+        glm::vec4 vertex_6(spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_6 = mvp * vertex_6;
+        vertices.setRow(i+5, { vertex_6[0]+InTranX, vertex_6[1]+InTranY, vertex_6[2]+InTranZ});
+        
         j++;
     }
     for(unsigned int i = 0; i< triangles.numRows()/2; i++){
@@ -101,7 +152,7 @@ void fruitModels::Orange() {
     }
     m_orange.setData(vertices, triangles);
     
-    createOrangeTopper(center.x,center.y,center.z - 1.7 , 0,-90,90);
+    createOrangeTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawOrangeTopper();
 }
 
@@ -110,6 +161,7 @@ void fruitModels::drawOrangeTopper(){m_orangeTopper.draw();}
 void fruitModels::createOrangeTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz){
     glm::mat4 modelTransform(1.0f);
     
+    modelTransform = glm::scale(modelTransform, glm::vec3(orange_scaler));
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTx), {1, 0 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTy), {0, 1 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTz), {0, 0 ,1});
@@ -151,12 +203,19 @@ void fruitModels::createOrangeTopper(double x, double y, double z,float ROTx, fl
 
 //------------------------------------------StrawBerry------------------------------------------//
 void fruitModels::drawStrawberry(){m_strawberry.draw();}
-void fruitModels::Strawberry() {
+void fruitModels::Strawberry(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ) {
     int size_vert = devisions*(devisions+1);
     cgra::Matrix<double> vertices(size_vert*3, 3);
     cgra::Matrix<unsigned int> triangles(size_vert, 3);
     int m_SubDiv = 0;
     glm::vec3 center(0,0,0);
+    
+    glm::mat4 modelTransform(1.0f);
+    
+    modelTransform = glm::scale(modelTransform, glm::vec3(strawberry_scaler));
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotX), {1, 0 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotY), {0, 1 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotZ), {0, 0 ,1});
     
     int j = 0;
     unsigned int numOfRows = 0;
@@ -173,25 +232,42 @@ void fruitModels::Strawberry() {
         }
     }
     for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {
+        glm::mat4 model = modelTransform;
+        glm::mat4 mvp = glm::mat4(1.0f)* model;
         
-        vertices.setRow(i, { spherePoints[j].x, spherePoints[j].y, spherePoints[j].z });
-        vertices.setRow(i+1, { spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z });
-        vertices.setRow(i+2, { spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z });
+        glm::vec4 vertex_1(spherePoints[j].x, spherePoints[j].y, spherePoints[j].z, 1.0f);
+        vertex_1 = mvp * vertex_1;
+        vertices.setRow(i, { vertex_1[0]+InTranX, vertex_1[1]+InTranY, vertex_1[2]+InTranZ});
         
-        vertices.setRow(i+3, { spherePoints[j].x , spherePoints[j].y , spherePoints[j].z });
-        vertices.setRow(i+4, { spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z });
-        vertices.setRow(i+5, { spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z });
+        glm::vec4 vertex_2(spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_2 = mvp * vertex_2;
+        vertices.setRow(i+1, { vertex_2[0]+InTranX, vertex_2[1]+InTranY, vertex_2[2]+InTranZ});
+        
+        glm::vec4 vertex_3(spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z , 1.0f);
+        vertex_3 = mvp * vertex_3;
+        vertices.setRow(i+2, { vertex_3[0]+InTranX, vertex_3[1]+InTranY, vertex_3[2]+InTranZ});
+        
+        glm::vec4 vertex_4(spherePoints[j].x , spherePoints[j].y , spherePoints[j].z , 1.0f);
+        vertex_4 = mvp * vertex_4;
+        vertices.setRow(i+3, { vertex_4[0]+InTranX, vertex_4[1]+InTranY, vertex_4[2]+InTranZ});
+        
+        glm::vec4 vertex_5(spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z, 1.0f);
+        vertex_5 = mvp * vertex_5;
+        vertices.setRow(i+4, { vertex_5[0]+InTranX, vertex_5[1]+InTranY, vertex_5[2]+InTranZ});
+        
+        glm::vec4 vertex_6(spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_6 = mvp * vertex_6;
+        vertices.setRow(i+5, { vertex_6[0]+InTranX, vertex_6[1]+InTranY, vertex_6[2]+InTranZ});
+        
         j++;
-        
     }
     for(unsigned int i = 0; i< triangles.numRows()/2; i++){
         triangles.setRow(i, {numOfRows,numOfRows+1,numOfRows+2});
         numOfRows+=3;
-        //triangles.setRow(i, {i+3,i+4,i+5});
     }
     m_strawberry.setData(vertices, triangles);
     
-    createStrawTopper(center.x,center.y,center.z - 1.83 , 0,-90,90);
+    createStrawTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawStrawTopper();
 }
 
@@ -200,6 +276,7 @@ void fruitModels::drawStrawTopper(){m_StrawTopper.draw();}
 void fruitModels::createStrawTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz){
     glm::mat4 modelTransform(1.0f);
     
+    modelTransform = glm::scale(modelTransform, glm::vec3(strawberry_scaler));
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTx), {1, 0 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTy), {0, 1 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTz), {0, 0 ,1});
@@ -244,6 +321,7 @@ void fruitModels::Tomato(float InTranX, float InTranY, float InTranZ, float InRo
     //rotation matrix
     glm::mat4 modelTransform(1.0f);
     
+    modelTransform = glm::scale(modelTransform, glm::vec3(tomato_scaler));
     modelTransform = glm::rotate(modelTransform, glm::radians(InRotX), {1, 0 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(InRotY), {0, 1 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(InRotZ), {0, 0 ,1});
@@ -271,16 +349,34 @@ void fruitModels::Tomato(float InTranX, float InTranY, float InTranZ, float InRo
         }
     }
     for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {
-
-        vertices.setRow(i, { spherePoints[j].x, spherePoints[j].y, spherePoints[j].z });
-        vertices.setRow(i+1, { spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z });
-        vertices.setRow(i+2, { spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z });
+        glm::mat4 model = modelTransform;
+        glm::mat4 mvp = glm::mat4(1.0f)* model;
         
-        vertices.setRow(i+3, { spherePoints[j].x , spherePoints[j].y , spherePoints[j].z });
-        vertices.setRow(i+4, { spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z });
-        vertices.setRow(i+5, { spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z });
+        glm::vec4 vertex_1(spherePoints[j].x, spherePoints[j].y, spherePoints[j].z, 1.0f);
+        vertex_1 = mvp * vertex_1;
+        vertices.setRow(i, { vertex_1[0]+InTranX, vertex_1[1]+InTranY, vertex_1[2]+InTranZ});
+        
+        glm::vec4 vertex_2(spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_2 = mvp * vertex_2;
+        vertices.setRow(i+1, { vertex_2[0]+InTranX, vertex_2[1]+InTranY, vertex_2[2]+InTranZ});
+        
+        glm::vec4 vertex_3(spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z , 1.0f);
+        vertex_3 = mvp * vertex_3;
+        vertices.setRow(i+2, { vertex_3[0]+InTranX, vertex_3[1]+InTranY, vertex_3[2]+InTranZ});
+        
+        glm::vec4 vertex_4(spherePoints[j].x , spherePoints[j].y , spherePoints[j].z , 1.0f);
+        vertex_4 = mvp * vertex_4;
+        vertices.setRow(i+3, { vertex_4[0]+InTranX, vertex_4[1]+InTranY, vertex_4[2]+InTranZ});
+        
+        glm::vec4 vertex_5(spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z, 1.0f);
+        vertex_5 = mvp * vertex_5;
+        vertices.setRow(i+4, { vertex_5[0]+InTranX, vertex_5[1]+InTranY, vertex_5[2]+InTranZ});
+        
+        glm::vec4 vertex_6(spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_6 = mvp * vertex_6;
+        vertices.setRow(i+5, { vertex_6[0]+InTranX, vertex_6[1]+InTranY, vertex_6[2]+InTranZ});
+        
         j++;
-        
     }
     for(unsigned int i = 0; i< triangles.numRows()/2; i++){
         triangles.setRow(i, {numOfRows,numOfRows+1,numOfRows+2});
@@ -289,7 +385,7 @@ void fruitModels::Tomato(float InTranX, float InTranY, float InTranZ, float InRo
     
     m_tomato.setData(vertices, triangles);
     
-    createTomatoTopper(center.x,center.y,center.z - 0.6 , 0,-90,90);
+    createTomatoTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawTomatoTopper();
 }
 
@@ -298,6 +394,7 @@ void fruitModels::drawTomatoTopper(){m_TomatorTopper.draw();}
 void fruitModels::createTomatoTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz){
     glm::mat4 modelTransform(1.0f);
 
+    modelTransform = glm::scale(modelTransform, glm::vec3(tomato_scaler));
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTx), {1, 0 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTy), {0, 1 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTz), {0, 0 ,1});
@@ -346,6 +443,14 @@ void fruitModels::Apple(float InTranX, float InTranY, float InTranZ, float InRot
     int m_SubDiv = 0;
     glm::vec3 center(0,0,0);
     
+    glm::mat4 modelTransform(1.0f);
+    
+    modelTransform = glm::scale(modelTransform, glm::vec3(apple_scaler));
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotX), {1, 0 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotY), {0, 1 ,0});
+    modelTransform = glm::rotate(modelTransform, glm::radians(InRotZ), {0, 0 ,1});
+
+    
     int j = 0;
     unsigned int numOfRows = 0;
     std::vector<glm::vec3>spherePoints;
@@ -356,7 +461,7 @@ void fruitModels::Apple(float InTranX, float InTranY, float InTranZ, float InRot
             glm::vec3 point;
             point.x = r * cos(phi*2) * sin(theta * 0.89) + center.x;
             point.y = r * sin(phi*2) * sin(theta) + center.y;
-            point.z = r            * cos(theta) + center.z;
+            point.z = r            * cos(theta)/0.9 + center.z;
             //std::cout << "z" << point.z<< std::endl;
             spherePoints.push_back(point);
             m_SubDiv++;
@@ -364,25 +469,42 @@ void fruitModels::Apple(float InTranX, float InTranY, float InTranZ, float InRot
         }
     }
     for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {
+        glm::mat4 model = modelTransform;
+        glm::mat4 mvp = glm::mat4(1.0f)* model;
         
-        vertices.setRow(i, { spherePoints[j].x, spherePoints[j].y, spherePoints[j].z });
-        vertices.setRow(i+1, { spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z });
-        vertices.setRow(i+2, { spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z });
+        glm::vec4 vertex_1(spherePoints[j].x, spherePoints[j].y, spherePoints[j].z, 1.0f);
+        vertex_1 = mvp * vertex_1;
+        vertices.setRow(i, { vertex_1[0]+InTranX, vertex_1[1]+InTranY, vertex_1[2]+InTranZ});
         
-        vertices.setRow(i+3, { spherePoints[j].x , spherePoints[j].y , spherePoints[j].z });
-        vertices.setRow(i+4, { spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z });
-        vertices.setRow(i+5, { spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z });
+        glm::vec4 vertex_2(spherePoints[j+1+devisions/2].x, spherePoints[j+1+devisions/2].y, spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_2 = mvp * vertex_2;
+        vertices.setRow(i+1, { vertex_2[0]+InTranX, vertex_2[1]+InTranY, vertex_2[2]+InTranZ});
+        
+        glm::vec4 vertex_3(spherePoints[j+devisions/2].x, spherePoints[j+devisions/2].y, spherePoints[j+devisions/2].z , 1.0f);
+        vertex_3 = mvp * vertex_3;
+        vertices.setRow(i+2, { vertex_3[0]+InTranX, vertex_3[1]+InTranY, vertex_3[2]+InTranZ});
+        
+        glm::vec4 vertex_4(spherePoints[j].x , spherePoints[j].y , spherePoints[j].z , 1.0f);
+        vertex_4 = mvp * vertex_4;
+        vertices.setRow(i+3, { vertex_4[0]+InTranX, vertex_4[1]+InTranY, vertex_4[2]+InTranZ});
+        
+        glm::vec4 vertex_5(spherePoints[j+1].x, spherePoints[j+1].y, spherePoints[j+1].z, 1.0f);
+        vertex_5 = mvp * vertex_5;
+        vertices.setRow(i+4, { vertex_5[0]+InTranX, vertex_5[1]+InTranY, vertex_5[2]+InTranZ});
+        
+        glm::vec4 vertex_6(spherePoints[j+1+devisions/2].x , spherePoints[j+1+devisions/2].y , spherePoints[j+1+devisions/2].z , 1.0f);
+        vertex_6 = mvp * vertex_6;
+        vertices.setRow(i+5, { vertex_6[0]+InTranX, vertex_6[1]+InTranY, vertex_6[2]+InTranZ});
+        
         j++;
-        
     }
     for(unsigned int i = 0; i< triangles.numRows()/2; i++){
         triangles.setRow(i, {numOfRows,numOfRows+1,numOfRows+2});
         numOfRows+=3;
-        //triangles.setRow(i, {i+3,i+4,i+5});
     }
     m_apple.setData(vertices, triangles);
     
-    createAppleTopper(center.x,center.y,center.z - 1.89 , 0,-90,90);
+    createAppleTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawAppleTopper();
 }
 
@@ -391,6 +513,7 @@ void fruitModels::drawAppleTopper(){m_AppleTopper.draw();}
 void fruitModels::createAppleTopper(double x, double y, double z,float ROTx, float ROTy, float ROTz){
     glm::mat4 modelTransform(1.0f);
     
+    modelTransform = glm::scale(modelTransform, glm::vec3(apple_scaler));
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTx), {1, 0 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTy), {0, 1 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(ROTz), {0, 0 ,1});
@@ -429,22 +552,3 @@ void fruitModels::createAppleTopper(double x, double y, double z,float ROTx, flo
     m_AppleTopper.setData(vertices, triangles);
     
 }
-
-
- /*
- glm::mat4 model = modelTransform;
- std::cout << "checkpoint 1" << std::endl;
- //glm::mat4 mvp = glm::mat4(1.0f)*model;
- glm::vec4 vertex(spherePoints[j].x,spherePoints[j].y,spherePoints[j].z, 1.0f);
- std::cout << "checkpoint 2" << std::endl;
- //vertex = mvp * vertex;
- //vertices.setRow(i,{vertex[0]+InTranX,vertex[1]+InTranY,vertex[2]+InTranZ});
- 
- vertices.setRow(i,{vertex[j],vertex[j],vertex[j]});
- vertices.setRow(i+1,{vertex[j+1],vertex[j+1],vertex[j+1]});
- vertices.setRow(i+2,{vertex[j],vertex[j],vertex[j]});
- 
- vertices.setRow(i+3,{vertex[j],vertex[j],vertex[j]});
- vertices.setRow(i+4,{vertex[j+1],vertex[j+1],vertex[j+1]});
- vertices.setRow(i+5,{vertex[j+1],vertex[j+1],vertex[j+1]});
- */
