@@ -13,7 +13,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/euler_angles.hpp"
 #include "fruitModels.hpp"
-//test parameters
+//test parameter
 double a = 1;
 double b = 5/2;
 //--------------
