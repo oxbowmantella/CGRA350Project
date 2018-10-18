@@ -53,7 +53,6 @@ void Application::init() {
 }
 
 void Application::drawScene() {
-    std::vector<std::shared_ptr<Light>> lights;
     // Calculate the aspect ratio of the viewport;
     // width / height
     float aspectRatio = m_viewportSize.x / m_viewportSize.y;
