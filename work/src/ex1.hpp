@@ -80,7 +80,6 @@ public:
 };
 class Scene{
 private:
-    std::vector<std::shared_ptr<Light>> m_lights;
 
 public:
     Scene() { }
