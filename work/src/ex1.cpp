@@ -11,7 +11,6 @@
 #include "cgra/wavefront.hpp"
 
 #include "ex1.hpp"
-#include "light.hpp"
 #include "fruitModels.hpp"
 
 #include "glm/glm.hpp"
@@ -89,11 +88,8 @@ void Application::drawScene() {
     m_fruits.drawTomato();
     m_fruits.Apple(10,0,0,-90,180,0);
     m_fruits.drawApple();
-    
-    //for lighting system
-    //Scene::lightScene();
+
     //DrawPlane();
-    lights.push_back(std::make_shared<DirectionalLight>(glm::vec3(-1, -1, -1), glm::vec3(0.5f), glm::vec3(0.05f)));
 }
 
 void Application::doGUI() {
@@ -298,36 +294,3 @@ void Application::onScroll(double xoffset, double yoffset) {
     (void)xoffset;
     (void)yoffset;
 }
-RayIntersection Scene::intersect(const Ray &ray) {
-    RayIntersection closest_intersect;
-    
-    // go through the vector of objects and return the closest intersection
-    //for (std::shared_ptr<SceneObject> &object : m_objects) {
-    //    RayIntersection intersect = object->intersect(ray);
-    //    if (intersect.m_valid && intersect.m_distance < closest_intersect.m_distance) {
-    //        closest_intersect = intersect;
-    //    }
-    //}
-    
-    return closest_intersect;
-}
-/*
-Scene Scene::lightScene() {
-    std::vector<std::shared_ptr<Scene>> objects;
-
-    std::vector<std::shared_ptr<Light>> lights;
-    
-    // declare materials
-    //std::shared_ptr<Material> shiny_red = std::make_shared<Material>(glm::vec3(1, 0, 0), 10, 0.5f, 0);
-    //std::shared_ptr<Material> green = std::make_shared<Material>(glm::vec3(0, 0.8f, 0), 1.05f, 0.1f, 0);
-    
-    // one directional light
-    lights.push_back(std::make_shared<DirectionalLight>(glm::vec3(-1, -1, -1), glm::vec3(0.5f), glm::vec3(0.05f)));
-    
-    // two point lights
-    lights.push_back(std::make_shared<PointLight>(glm::vec3(-5, 0, -10), glm::vec3(50), glm::vec3(0.05f)));
-    lights.push_back(std::make_shared<PointLight>(glm::vec3(5, 0, -10), glm::vec3(50), glm::vec3(0.05f)));
-    
-    //return Scene(objects, lights);
-}
-*/

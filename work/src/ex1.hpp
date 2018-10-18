@@ -2,7 +2,6 @@
 
 #include "cgra/mesh.hpp"
 #include "cgra/shader.hpp"
-#include "ray.hpp"
 #include "glm/glm.hpp"
 class Light;
 class RayIntersection {
@@ -46,7 +45,6 @@ public:
     
     // Whether or not the left, middle or right buttons are down.
     bool m_mouseButtonDown[3];
-    RayIntersection intersect(const Ray &ray);
     Application(GLFWwindow *win)
     : m_window(win),
     m_viewportSize(1, 1), m_mousePosition(0, 0),
@@ -86,11 +84,4 @@ private:
 
 public:
     Scene() { }
-    //Scene(std::vector<std::shared_ptr<SceneObject>> objects, std::vector<std::shared_ptr<Light>> lights)
-    //: m_objects(objects), m_lights(lights) { }
-    
-    RayIntersection intersect(const Ray &ray);
-    //std::vector<std::shared_ptr<SceneObject>> objects() const { return m_objects; }
-    std::vector<std::shared_ptr<Light>> lights() const { return m_lights; }
-    static Scene lightScene();
 };
