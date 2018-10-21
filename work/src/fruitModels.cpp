@@ -13,6 +13,13 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/euler_angles.hpp"
 #include "fruitModels.hpp"
+
+#include "cgra/stb_image.h"
+#include "ex1.hpp"
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtx/euler_angles.hpp"
 //test parameter
 double a = 1;
 double b = 5/2;
@@ -20,6 +27,7 @@ double b = 5/2;
 const double PI=3.141592653589793238462643383279502884197;
 static int devisions = 28;
 static int r = 2;
+
 //------------------------------------------Fruit Bowl------------------------------------------//
 void fruitModels::drawBowl(){m_bowl.draw();}
 void fruitModels::Bowl(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ) {
@@ -151,9 +159,10 @@ void fruitModels::Orange(float InTranX, float InTranY, float InTranZ, float InRo
         numOfRows+=3;
     }
     m_orange.setData(vertices, triangles);
-    
+    specifyTexture1();
     createOrangeTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawOrangeTopper();
+    
 }
 
 //------------------------------------------Topper(Orange)------------------------------------------//
@@ -269,6 +278,7 @@ void fruitModels::Strawberry(float InTranX, float InTranY, float InTranZ, float 
     
     createStrawTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawStrawTopper();
+    specifyTexture2();
 }
 
 //------------------------------------------Topper(Strawberry)------------------------------------------//
@@ -387,6 +397,7 @@ void fruitModels::Tomato(float InTranX, float InTranY, float InTranZ, float InRo
     
     createTomatoTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawTomatoTopper();
+    specifyTexture3();
 }
 
 //------------------------------------------Topper(Tomato)------------------------------------------//
@@ -506,6 +517,7 @@ void fruitModels::Apple(float InTranX, float InTranY, float InTranZ, float InRot
     
     createAppleTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawAppleTopper();
+    specifyTexture4();
 }
 
 //------------------------------------------Topper(Apple)------------------------------------------//
@@ -551,4 +563,66 @@ void fruitModels::createAppleTopper(double x, double y, double z,float ROTx, flo
     }
     m_AppleTopper.setData(vertices, triangles);
     
+}
+
+//------------------------------------------TetureSetters------------------------------------------//
+void fruitModels::specifyTexture1() {
+    
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(CGRA_SRCDIR "/res/textures/normalMap.png", &width, &height, &nrChannels, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+}
+void fruitModels::specifyTexture2() {
+    
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(CGRA_SRCDIR "/res/textures/Texture.png", &width, &height, &nrChannels, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+}
+void fruitModels::specifyTexture3() {
+    
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(CGRA_SRCDIR "/res/textures/normalMap.png", &width, &height, &nrChannels, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+}
+void fruitModels::specifyTexture4() {
+    
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(CGRA_SRCDIR "/res/textures/Texture.png", &width, &height, &nrChannels, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 }

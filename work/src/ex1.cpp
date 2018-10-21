@@ -42,8 +42,11 @@ void Application::init() {
                                             //CGRA_SRCDIR "/res/shaders/cookTorrance.vs.glsl",
                                             //CGRA_SRCDIR "/res/shaders/cookTorrance.fs.glsl");
     
-                                            CGRA_SRCDIR "/res/shaders/orenNayar.vs.glsl",
-                                            CGRA_SRCDIR "/res/shaders/orenNayar.fs.glsl");
+                                            //CGRA_SRCDIR "/res/shaders/orenNayar.vs.glsl",
+                                            //CGRA_SRCDIR "/res/shaders/orenNayar.fs.glsl");
+    
+                                            CGRA_SRCDIR "/res/shaders/texture.vs.glsl",
+                                            CGRA_SRCDIR "/res/shaders/texture.fs.glsl");
     
     
     glm::mat4 viewMatrix(1);
@@ -81,12 +84,12 @@ void Application::drawScene() {
     //m_fruits.drawBowl();
     m_fruits.Orange(0,0,0,-90,180,0);
     m_fruits.drawOrange();
-    m_fruits.Strawberry(5,0,0,-90,180,0);
-    m_fruits.drawStrawberry();
-    m_fruits.Tomato(-5,0,0,-90,180,0);
-    m_fruits.drawTomato();
-    m_fruits.Apple(10,0,0,-90,180,0);
-    m_fruits.drawApple();
+    //m_fruits.Strawberry(5,0,0,-90,180,0);
+    //m_fruits.drawStrawberry();
+    //m_fruits.Tomato(-5,0,0,-90,180,0);
+    //m_fruits.drawTomato();
+    //m_fruits.Apple(10,0,0,-90,180,0);
+    //m_fruits.drawApple();
 
     //DrawPlane();
 }

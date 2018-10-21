@@ -24,7 +24,10 @@
 class fruitModels {
 public:
     cgra::Program m_program;
-    
+    void specifyTexture1();
+    void specifyTexture2();
+    void specifyTexture3();
+    void specifyTexture4();
     //--------------
     cgra::Mesh m_bowl;
     float bowl_scaler = 0.3;
@@ -33,7 +36,7 @@ public:
     
     //--------------
     cgra::Mesh m_orange;
-    float orange_scaler = 0.7;
+    float orange_scaler = 0.5;
     void drawOrange();
     void Orange(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     

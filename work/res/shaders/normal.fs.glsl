@@ -1,20 +1,26 @@
 #version 330 core
 
-out vec4 color;
-
+in vec2 UV;
 in vec3 fragPosition;
 in vec3 fragNormal;
+
+out vec3 color;
+
+uniform sampler2D mytextureSampler;
 
 const vec3 lightDir = vec3(0.25, 0.25, -1);
 
 const vec3 ambientColor = vec3(0.05, 0.05, 0.1);
-const vec3 diffuseColor = vec3(0.4, 0.4, 1.0);
+const vec3 diffuseColor = vec3(1, 1, 1);
 const vec3 specColor    = vec3(0.2, 0.1, 0.1);
 
 const float shininess = 16.0;
 
 void main() {
-    vec3 normal = normalize(fragNormal);
+    vec3 rgbNormal = texture(mytextureSampler,UV).rgb;
+    vec3 normal = (rgbNormal *2 ) - 0.5;   
+    normal = normalize(normal + fragNormal);
+
     vec3 lightDir = normalize(-lightDir);
 
     float lambertian = max(dot(lightDir,normal), 0.0);
@@ -33,5 +39,10 @@ void main() {
         lambertian * diffuseColor +
         specular * specColor;
 
-    color = vec4(fragColor, 1.0);
+
+
+
+  color = fragColor;
+
+
 }
