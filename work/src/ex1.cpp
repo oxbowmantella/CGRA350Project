@@ -28,25 +28,21 @@ static float yCHNG = 1; //change in mouseY
 static glm::vec3 rotation(0,0,0);
 static glm::vec3 translation(0,0,0);
 bool toSphere = false;
+fruitModels m_fruits = *new fruitModels();
 void Application::init() {
     // Load the shader program
     // The use of CGRA_SRCDIR "/path/to/shader" is so you don't
     // have to run the program from a specific folder.
-    m_program = cgra::Program::load_program(
-                                            //CGRA_SRCDIR "/res/shaders/simple.vs.glsl",
-                                            //CGRA_SRCDIR "/res/shaders/simple.fs.glsl");
-    
-                                            //CGRA_SRCDIR "work/res/shaders/filter.glsl",
-                                            //CGRA_SRCDIR "work/res/shaders/display.glsl");
-    
-                                            //CGRA_SRCDIR "/res/shaders/cookTorrance.vs.glsl",
-                                            //CGRA_SRCDIR "/res/shaders/cookTorrance.fs.glsl");
-    
-                                            //CGRA_SRCDIR "/res/shaders/orenNayar.vs.glsl",
-                                            //CGRA_SRCDIR "/res/shaders/orenNayar.fs.glsl");
-    
-                                            CGRA_SRCDIR "/res/shaders/texture.vs.glsl",
-                                            CGRA_SRCDIR "/res/shaders/texture.fs.glsl");
+    if(m_fruits.enable_textures == true){
+        m_program = cgra::Program::load_program(
+                                                CGRA_SRCDIR "/res/shaders/texture.vs.glsl",
+                                                CGRA_SRCDIR "/res/shaders/texture.fs.glsl");
+    }
+    if(m_fruits.enable_textures == false){
+        m_program = cgra::Program::load_program(
+                                                CGRA_SRCDIR "/res/shaders/simple.vs.glsl",
+                                                CGRA_SRCDIR "/res/shaders/simple.fs.glsl");
+    }
     
     
     glm::mat4 viewMatrix(1);
@@ -77,19 +73,19 @@ void Application::drawScene() {
     m_program.setModelMatrix(modelTransform);
     
     m_mesh.draw();
-    fruitModels m_fruits = *new fruitModels();
+    
     // Draw the mesh
     //Fruit testing
-    //m_fruits.Bowl();
-    //m_fruits.drawBowl();
+    m_fruits.Bowl(0,0,-3,90,180,0);
+    m_fruits.drawBowl();
     m_fruits.Orange(0,0,0,-90,180,0);
     m_fruits.drawOrange();
-    //m_fruits.Strawberry(5,0,0,-90,180,0);
-    //m_fruits.drawStrawberry();
-    //m_fruits.Tomato(-5,0,0,-90,180,0);
-    //m_fruits.drawTomato();
-    //m_fruits.Apple(10,0,0,-90,180,0);
-    //m_fruits.drawApple();
+    m_fruits.Strawberry(2,0,0,-90,180,0);
+    m_fruits.drawStrawberry();
+    m_fruits.Tomato(-2,0,0,-90,180,0);
+    m_fruits.drawTomato();
+    m_fruits.Apple(4,0,0,-90,180,0);
+    m_fruits.drawApple();
 
     //DrawPlane();
 }
@@ -98,6 +94,7 @@ void Application::doGUI() {
     ImGui::SetNextWindowSize(ImVec2(250, 250), ImGuiSetCond_FirstUseEver);
     ImGui::Begin("Shapes");
     static bool click = false;
+    static bool click2 = false;
     static char buf[255];
     
     if (ImGui::InputFloat3("Rotation", &rotation[0])) {
@@ -107,12 +104,45 @@ void Application::doGUI() {
                                        0.0,0.0,rotation.z
                                        );
     }
-    if(ImGui::InputText(".obj File", buf, 255));
-     if(ImGui::Button("Load File")){
-         std::cout<< buf << "\n";
-         loadObj(buf);
-     }
+    if (ImGui::Checkbox("Draw Wireframe", &click)){
+        m_fruits.m_AppleTopper.setDrawWireframe(&click);
+        m_fruits.m_apple.setDrawWireframe(&click);
+        m_fruits.m_orangeTopper.setDrawWireframe(&click);
+        m_fruits.m_orange.setDrawWireframe(&click);
+        m_fruits.m_TomatorTopper.setDrawWireframe(&click);
+        m_fruits.m_tomato.setDrawWireframe(&click);
+        m_fruits.m_StrawTopper.setDrawWireframe(&click);
+        m_fruits.m_strawberry.setDrawWireframe(&click);
+        m_fruits.m_bowl.setDrawWireframe(&click);
+        m_fruits.enable_textures = false;
+        click2 = false;
+        init();
+    }else if(click == false){   //disable wireframe mode
+        m_fruits.m_AppleTopper.setDrawWireframe(false);
+        m_fruits.m_apple.setDrawWireframe(false);
+        m_fruits.m_orangeTopper.setDrawWireframe(false);
+        m_fruits.m_orange.setDrawWireframe(false);
+        m_fruits.m_TomatorTopper.setDrawWireframe(false);
+        m_fruits.m_tomato.setDrawWireframe(false);
+        m_fruits.m_StrawTopper.setDrawWireframe(false);
+        m_fruits.m_strawberry.setDrawWireframe(false);
+        m_fruits.m_bowl.setDrawWireframe(false);
+        init();
+    }
     
+    if (ImGui::Checkbox("Enable Textures", &click2)){
+        m_fruits.enable_textures = true;
+        click = false;
+        init();
+    }else if(click2 == false){   //disable wireframe mode
+        m_fruits.enable_textures = false;
+        init();
+    }
+    
+    if (ImGui::InputInt("Mesh divisions", &m_fruits.devisions)) {}
+    ImGui::TextWrapped("To see the change in mesh resolution, disable the textures in order to see the change in resolution real time");
+    ImGui::Spacing();
+    ImGui::TextWrapped("Click and drag to rotate around, along with scroll to zoom in");
     ImGui::End();
 }
 void Application::DrawPlane(){

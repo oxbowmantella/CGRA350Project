@@ -25,19 +25,20 @@ double a = 1;
 double b = 5/2;
 //--------------
 const double PI=3.141592653589793238462643383279502884197;
-static int devisions = 28;
+int devisions;
 static int r = 2;
 
 //------------------------------------------Fruit Bowl------------------------------------------//
+//most of the other code follows roughly the same format for i will comment this section
 void fruitModels::drawBowl(){m_bowl.draw();}
-void fruitModels::Bowl(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ) {
+void fruitModels::Bowl(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ) { //input for the translation and rotation when drawing
     int size_vert = devisions*(devisions+1);
     cgra::Matrix<double> vertices(size_vert*3, 3);
     cgra::Matrix<unsigned int> triangles(size_vert, 3);
     int m_SubDiv = 0;
     glm::vec3 center(0,0,0);
     
-    glm::mat4 modelTransform(1.0f);
+    glm::mat4 modelTransform(1.0f); //model matrix for the scale/translation and rotation
     modelTransform = glm::scale(modelTransform, glm::vec3(bowl_scaler));
     modelTransform = glm::rotate(modelTransform, glm::radians(InRotX), {1, 0 ,0});
     modelTransform = glm::rotate(modelTransform, glm::radians(InRotY), {0, 1 ,0});
@@ -47,17 +48,17 @@ void fruitModels::Bowl(float InTranX, float InTranY, float InTranZ, float InRotX
     unsigned int numOfRows = 0;
     std::vector<glm::vec3>spherePoints;
     spherePoints.clear();
-    for (double phi = 0; phi < 2*PI; phi +=PI*2/devisions) {
+    for (double phi = 0; phi < 2*PI; phi +=PI*2/devisions) {    //for loops for iterating over the radius of the shape
         for(double theta = 0; theta < PI; theta+=PI*2/devisions){
             glm::vec3 point;
-            point.x = r * cos(phi*2) * sin(theta * 0.8) + center.x;
-            point.y = r * sin(phi*2) * sin(theta) + center.y;
-            point.z = r            * sin(theta) + center.z;
+            point.x = r * cos(phi*2) * sin(theta * 0.8) + center.x;     //method for setting the point x based of maths equation
+            point.y = r * sin(phi*2) * sin(theta) + center.y;           //method for setting the point y based of maths equation
+            point.z = r            * sin(theta) + center.z;             //method for setting the point z based of maths equation - z doesnt need to be changed
             spherePoints.push_back(point);
             m_SubDiv++;
         }
     }
-    for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {
+    for (unsigned int i = 0; i < vertices.numRows()/2-6; i+=6) {    //apply the varibles to the matrix that are being passed in to each vert of the shape
         glm::mat4 model = modelTransform;
         glm::mat4 mvp = glm::mat4(1.0f)* model;
         
@@ -159,7 +160,9 @@ void fruitModels::Orange(float InTranX, float InTranY, float InTranZ, float InRo
         numOfRows+=3;
     }
     m_orange.setData(vertices, triangles);
-    specifyTexture1();
+    if(enable_textures == true){
+        specifyTexture1();
+    }
     createOrangeTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawOrangeTopper();
     
@@ -278,7 +281,9 @@ void fruitModels::Strawberry(float InTranX, float InTranY, float InTranZ, float 
     
     createStrawTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawStrawTopper();
+    if(enable_textures == true){
     specifyTexture2();
+    }
 }
 
 //------------------------------------------Topper(Strawberry)------------------------------------------//
@@ -397,7 +402,9 @@ void fruitModels::Tomato(float InTranX, float InTranY, float InTranZ, float InRo
     
     createTomatoTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawTomatoTopper();
+    if(enable_textures == true){
     specifyTexture3();
+    }
 }
 
 //------------------------------------------Topper(Tomato)------------------------------------------//
@@ -517,7 +524,9 @@ void fruitModels::Apple(float InTranX, float InTranY, float InTranZ, float InRot
     
     createAppleTopper(center.x+InTranX,center.y+InTranY,center.z+InTranZ, InRotX+90, InRotY+270,InRotX+90);
     drawAppleTopper();
+    if(enable_textures == true){
     specifyTexture4();
+    }
 }
 
 //------------------------------------------Topper(Apple)------------------------------------------//

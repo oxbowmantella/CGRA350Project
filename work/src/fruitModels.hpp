@@ -23,6 +23,8 @@
 
 class fruitModels {
 public:
+    bool enable_textures = false;
+    int devisions = 28;
     cgra::Program m_program;
     void specifyTexture1();
     void specifyTexture2();
@@ -30,7 +32,7 @@ public:
     void specifyTexture4();
     //--------------
     cgra::Mesh m_bowl;
-    float bowl_scaler = 0.3;
+    float bowl_scaler = 0.5;
     void drawBowl();
     void Bowl(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     
@@ -46,7 +48,7 @@ public:
     
     //--------------
     cgra::Mesh m_strawberry;
-    float strawberry_scaler = 1;
+    float strawberry_scaler = 0.5;
     void drawStrawberry();
     void Strawberry(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     
@@ -56,7 +58,7 @@ public:
     
     //--------------
     cgra::Mesh m_tomato;
-    float tomato_scaler = 1.5;
+    float tomato_scaler = 0.5;
     void drawTomato();
     void Tomato(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     
@@ -66,7 +68,7 @@ public:
     
     //--------------
     cgra::Mesh m_apple;
-    float apple_scaler = 2;
+    float apple_scaler = 0.5;
     void drawApple();
     void Apple(float InTranX, float InTranY, float InTranZ, float InRotX, float InRotY, float InRotZ);
     

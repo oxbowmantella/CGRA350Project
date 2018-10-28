@@ -51,7 +51,7 @@ int main(int argc, const char** argv) {
     // but is worth being explicit about
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
     
-    GLFWwindow *window = glfwCreateWindow(1280, 720, "CGRA Assignment", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(1280, 720, "Fruit-Modelling", NULL, NULL);
     if (window == nullptr) {
         return 1;
     }
